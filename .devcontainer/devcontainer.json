@@ -3,6 +3,6 @@
 	"extensions": [
 		"ms-azuretools.vscode-docker"
 	],
-	"dockerfile": "Dockerfile",
+	"dockerFile": "Dockerfile",
 	"appPort": 3000
 }
