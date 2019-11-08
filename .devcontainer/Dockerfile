@@ -4,7 +4,7 @@
 #-------------------------------------------------------------------------------------------------------------
 
 # Note: You can use any Debian/Ubuntu based image you want. 
-FROM node:10
+FROM ubuntu:bionic
 
 # Avoid warnings by switching to noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
