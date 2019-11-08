@@ -1,0 +1,6 @@
+{
+	"name": "Dev Container",
+	"extensions": [
+		"ms-azuretools.vscode-docker"
+	]	
+}
