@@ -4,5 +4,6 @@
 		"ms-azuretools.vscode-docker"
 	],
 	"dockerFile": "Dockerfile",
-	"appPort": 3000
+	"appPort": 3000,
+	"customContainers": true
 }
