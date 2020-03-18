@@ -19,7 +19,7 @@ RUN apt-get update \
     # Verify git, process tools installed
     && apt-get -y install git iproute2 procps \
     #
-    && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common lsb-release \
+    && apt-get install -y apt-transport-https ca-certificates sudo curl gnupg-agent software-properties-common lsb-release \
     #
     # Install Live Share dependencies
     && curl -sSL -o vsls-linux-prereq-script.sh https://aka.ms/vsls-linux-prereq-script \
