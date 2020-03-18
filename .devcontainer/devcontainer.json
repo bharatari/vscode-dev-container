@@ -1,9 +1,11 @@
 {
 	"name": "Dev Container",
-	"extensions": [
-		"ms-azuretools.vscode-docker"
-	],
 	"dockerFile": "Dockerfile",
-	"appPort": 3000,
-	"customContainers": true
+	"extensions": [
+		"ms-vsonline.vsonline",
+		"GitHub.vscode-pull-request-github",
+		"MS-vsliveshare.vsliveshare",
+		"VisualStudioExptTeam.vscodeintellicode"
+	],
+	"forwardPorts": [3000, 3001],
 }
