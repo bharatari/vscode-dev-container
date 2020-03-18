@@ -32,14 +32,14 @@ RUN apt-get update \
     && git lfs install \
     #
     # Install Docker CE CLI
-    # && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
-    # && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
-    # && apt-get update \
-    # && apt-get install -y docker-ce-cli \
+    && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
+    && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
+    && apt-get update \
+    && apt-get install -y docker-ce-cli \
     #
     # Install Docker Compose
-    # && curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
-    # && chmod +x /usr/local/bin/docker-compose \
+    && curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
+    && chmod +x /usr/local/bin/docker-compose \
     #
     # Setup vsonline user
     && useradd --create-home --shell /bin/bash vsonline \
@@ -49,8 +49,8 @@ RUN apt-get update \
     && sudo -u vsonline mkdir /home/vsonline/.vsonline \
     #
     # Install nvm (popular Node.js version-management tool)
-    && sudo -u vsonline curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | sudo -u vsonline bash 2>&1 \
-    && rm -rf /home/vsonline/.nvm/.git \
+    # && sudo -u vsonline curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | sudo -u vsonline bash 2>&1 \
+    # && rm -rf /home/vsonline/.nvm/.git \
     #
     # Tactically remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
     # Can leave in image once the CVE is resolved upstream or the node images move to "buster".
