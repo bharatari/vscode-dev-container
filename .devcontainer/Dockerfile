@@ -40,11 +40,11 @@ RUN apt-get update \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
     #
     # Other dependencies
-    && apt-get install build-essential
-    && apt-get install postgresql
-    && apt-get install python-psycopg2
-    && apt-get install libpq-dev
-    && locale-gen "en_US.UTF-8"
+    && apt-get install build-essential \
+    && apt-get install postgresql \
+    && apt-get install python-psycopg2 \
+    && apt-get install libpq-dev \
+    && locale-gen "en_US.UTF-8" \
     #
     # Tactically remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
     # Can leave in image once the CVE is resolved upstream or the node images move to "buster".
