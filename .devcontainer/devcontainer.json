@@ -5,7 +5,13 @@
 		"ms-vsonline.vsonline",
 		"GitHub.vscode-pull-request-github",
 		"MS-vsliveshare.vsliveshare",
-		"VisualStudioExptTeam.vscodeintellicode"
+		"VisualStudioExptTeam.vscodeintellicode",
+		"eamodio.gitlens",
+		"dbaeumer.vscode-eslint",
+		"esbenp.prettier-vscode",
+		"christian-kohler.npm-intellisense",
+		"eg2.vscode-npm-script",
+		"webhint.vscode-webhint"
 	],
 	"forwardPorts": [3000, 3001],
 }
