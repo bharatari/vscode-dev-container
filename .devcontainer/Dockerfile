@@ -26,11 +26,6 @@ RUN apt-get update \
     && /bin/bash vsls-linux-prereq-script.sh true false false \
     && rm vsls-linux-prereq-script.sh \
     #
-    # Install Git LFS
-    && curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash \
-    && apt-get install -yq git-lfs \
-    && git lfs install \
-    #
     # Install Docker CE CLI
     && curl -fsSL https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/gpg | (OUT=$(apt-key add - 2>&1) || echo $OUT) \
     && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/$(lsb_release -is | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable" \
@@ -41,16 +36,15 @@ RUN apt-get update \
     && curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     #
-    # Setup vsonline user
-    && useradd --create-home --shell /bin/bash vsonline \
-    && mkdir -p /etc/sudoers.d \
-    && echo "vsonline ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/nopasswd \
-    && echo "Defaults secure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:${EXTRA_PATHS}\"" >> /etc/sudoers.d/securepath \
-    && sudo -u vsonline mkdir /home/vsonline/.vsonline \
-    #
     # Install nvm (popular Node.js version-management tool)
-    # && sudo -u vsonline curl -s -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | sudo -u vsonline bash 2>&1 \
-    # && rm -rf /home/vsonline/.nvm/.git \
+    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
+    #
+    # Other dependencies
+    && apt-get install build-essential
+    && apt-get install postgresql
+    && apt-get install python-psycopg2
+    && apt-get install libpq-dev
+    && locale-gen "en_US.UTF-8"
     #
     # Tactically remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
     # Can leave in image once the CVE is resolved upstream or the node images move to "buster".
@@ -62,5 +56,3 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=dialog
-
-USER vsonline
