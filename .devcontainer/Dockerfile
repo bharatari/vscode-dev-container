@@ -12,6 +12,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Docker Compose version
 ARG COMPOSE_VERSION=1.24.0
 
+# Terraform version
+ARG TERRAFORM_VERSION=0.12.16
+
 # Configure apt and install packages
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils dialog 2>&1 \
@@ -19,7 +22,8 @@ RUN apt-get update \
     # Verify git, process tools installed
     && apt-get -y install git iproute2 procps \
     #
-    && apt-get install -y apt-transport-https ca-certificates sudo curl gnupg-agent software-properties-common lsb-release \
+    # Install general dependencies
+    && apt-get install -y apt-transport-https ca-certificates sudo curl gnupg-agent software-properties-common lsb-release jq unzip build-essential \
     #
     # Install Live Share dependencies
     && curl -sSL -o vsls-linux-prereq-script.sh https://aka.ms/vsls-linux-prereq-script \
@@ -36,14 +40,32 @@ RUN apt-get update \
     && curl -sSL "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose \
     #
-    # Install nvm (popular Node.js version-management tool)
+    # Install nvm
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
     #
-    # Other dependencies
-    && apt-get -y install build-essential \
+    # Install Terraform
+    && mkdir -p /tmp/docker-downloads \
+    && curl -sSL -o /tmp/docker-downloads/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
+    && unzip /tmp/docker-downloads/terraform.zip \
+    && mv terraform /usr/local/bin \
+    && rm -rf /tmp/docker-downloads \
+    #
+    # Install kubectl
+    && curl -sSL -o /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
+    && chmod +x /usr/local/bin/kubectl \
+    #
+    # Install Helm
+    && curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash - \
+    #
+    # Install Redis
+    && apt-get -y install redis-server \
+    #
+    # Install Postgres
     && apt-get -y install postgresql \
-    && apt-get -y install python-psycopg2 \
+    && apt-get -y install postgresql-contrib \
     && apt-get -y install libpq-dev \
+    #
+    # Set locale
     && locale-gen "en_US.UTF-8" \
     #
     # Tactically remove imagemagick due to https://security-tracker.debian.org/tracker/CVE-2019-10131
